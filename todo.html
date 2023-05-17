@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoPage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="body1">
+    <nav class="navbar">
+        <div class="navbar__container">
+            <div class="navbar__toggle" id="mobile_menu">
+                <span class="bar"></span>
+                <a class="navbar-brand" href="#">
+                    <img src="image/download.jfif" alt="todo" width="50" height="50" style="background-color: red;" id="logo">
+                  </a>
+            </div>
+            <ul class="navbar_menu">
+                <li class="navbar_item">
+                    <a href="#" id="navbar_links" class="todo_menu">Todo List </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="index.html" id="navbar_links">LogOut</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div id="result">
+        
+    </div>
+
+    <footer id="sticky-footer" class="flex-shrink-0 py-4  text-white-50 ">
+        <p class="text-center"> </p>
+    </footer>
+
+    <script> 
+    
+       var todo_menu = document.getElementById("navbar_links");
+       todo_menu.addEventListener("click", listing);         
+
+       function listing()
+        {
+            var xhr= new XMLHttpRequest();
+            xhr.open("get", 'https://jsonplaceholder.typicode.com/todos');
+       
+            xhr.send();  
+    
+            xhr.onreadystatechange =function(){
+                if(xhr.readyState==4){
+                    if(xhr.status==200){
+                    
+                        var res= JSON.parse(xhr.responseText);
+                             // console.log(res);
+                        var html_contant="";
+                        var  disp=document.getElementById("result");
+                        html_contant= "<table id='tbl'><tr> <th>ID </th><th>User Id </th> <th>Task </th> <th>Status </th></tr>"
+                      
+                        for (let i = 0; i < res.length; i++) {
+                            var  record = res[i];
+               
+                            html_contant= html_contant +" <tr>";
+                            html_contant+="<td>"+record.userId+"</td>";
+                            html_contant+= "<td>"+record.id +"</td> ";
+                            html_contant+= "<td>"+record.title+"</td>";
+                                 if (record.completed==true) {
+                                    html_contant+= "<td><input type='checkbox'id='unchek' onmouseover='unchk()' checked disabled ></td>";
+                                 }
+                                 else{
+                                     html_contant+= "<td ><input type='checkbox' id='chek' class='check' value='1' onchange='chk();'  > </td>";
+                                 }
+                            html_contant+= " </tr>";                
+                        }
+                        
+                         result.innerHTML=html_contant;
+                    }              
+                 }         
+            }     
+        }
+            
+        function chk() {
+            var checkboxes=document.getElementsByClassName("check");
+            var j=0;  
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                if(checkboxes[i].checked){
+                    j++; 
+                }    
+            }         
+            return promise = new Promise((resolve, reject) => {
+                if(j>=5){
+                    resolve(alert(`Congrats. ${j} Task have been Succesfully completed!!!`));
+                }
+            })
+        }
+        // function unchk() {
+        //     alert("already completed");
+            
+        // }
+    </script>    
+</body>
+
+</html>            
+            
+            
+
+
